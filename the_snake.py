@@ -88,10 +88,11 @@ class Apple(GameObject):
             self,
             position: list[tuple[int, int]] | None = None,
             body_color: tuple[int, int, int] = APPLE_COLOR,
-            occupied_cells: list[tuple[int, int]] = [SCREEN_CENTER]
+            occupied_cells: list[tuple[int, int]] | None = None
     ) -> None:
         super().__init__(position, body_color)
-        self.randomize_position(occupied_cells)
+        if occupied_cells is not None:
+            self.randomize_position(occupied_cells)
 
     def randomize_position(
             self,
