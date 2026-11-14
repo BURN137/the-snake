@@ -153,6 +153,10 @@ class Snake(GameObject):
         # Добавляем координаты головы змейки в начало списка
         list.insert(self.positions, 0, (next_head_position))
 
+        # Удаляем последнюю координату в списке и
+        # передаем для затирки следа
+        self.last = list.pop(self.positions)
+
     def draw(self) -> None:
         """Отрисовывает змейку на экране, затирая след."""
         # Отрисовка головы змейки
@@ -204,7 +208,7 @@ def main() -> None:
     snake = Snake()
     apple = Apple(occupied_cells=snake.positions)
     while True:
-        clock.tick(2)  # Исправить на SPEED
+        clock.tick(SPEED)
         snake.update_direction()
         snake.move()
 
@@ -217,10 +221,8 @@ def main() -> None:
         if snake.get_head_position() in snake.positions[1:]:
             snake.reset()  # Сбрасываем змейку
             screen.fill(BOARD_BACKGROUND_COLOR)
-        else:
-            # Удаляем последнюю координату в списке и
-            # передаем для затирки следа
-            snake.last = list.pop(snake.positions)
+            apple.randomize_position(snake.positions)
+
         apple.draw()
         snake.draw()
         pg.display.update()
